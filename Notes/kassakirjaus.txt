@@ -1,0 +1,6 @@
+Päiväys: 23-10-2024 17:45:08
+Ostosten kokonaishinta: 20.00 EUR
+Maksettu summa: 30.00 EUR
+Takaisin annettava: 10.00 EUR
+Kassassa oleva rahamäärä: 1020.00 EUR
+
