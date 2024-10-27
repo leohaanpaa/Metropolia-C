@@ -1,0 +1,128 @@
+Edellinen rakenne "henkilötiedot" voitaisiin esitellä seuraavasti:
+
+Esimerkki 4.1
+
+   struct henkilotiedot 
+   {
+     char etunimi[15];
+     char sukunimi[25];
+     int ika;
+     int paino;
+   }; 
+
+
+
+
+   Tietorakenteen esittelyssä käytetään varattua sanaa struct, jonka perään kirjoitetaan esiteltävän rakenteen nimi. Rakenteeseen kuuluvat jäsenet kirjoitetaan aaltosulkeiden sisään. Rakenteen jäsenet voivat olla mitä tahansa muuttujia mukaanlukien taulukot ja jopa toiset rakenteet. Huomaa, että rakenteen esittelyn loppuun tulee puolipiste.
+
+Ennen kuin voit käyttää rakennetta, sille on määriteltävä ilmentymä. Alapuolen esimerkissä rakenteesta henkilotiedot muodostetaan ilmentymä henkilo_1:
+
+struct henkilotiedot henkilo_1;
+
+Jos haluaisimme määritellä useamman ilmentymän kerrallaan, voisimme kirjoittaa:
+
+struct henkilotiedot henkilo_1, henkilo_2, henkilo_3;
+
+Usein määrittely tehdään heti rakenteen esittelyn yhteydessä, jolloin kirjoitetaan näin:
+
+Esimerkki 4.2
+
+   struct henkilotiedot 
+   {
+     char etunimi[15];
+     char sukunimi[25];
+     int ika;
+     int paino;
+   } henkilo_1; 
+
+
+
+   Tietorakenteen muuttujia kutsutaan jäseniksi ja niitä voidaan käsitellä samoin kuin tavallisia muuttujia. Ainoa ero on piste-operaattorin käyttö, jonka avulla jonkin ilmentymän tiettyyn jäseneen viitataan. Edellisen esimerkin jäseniin voisimme sijoittaa tietoja seuraavasti:
+
+strcpy(henkilo_1.etunimi,"Matti");
+strcpy(henkilo_1.sukunimi,"Kilpiä");
+henkilo_1.ika = 22;
+henkilo_1.paino = 70;
+
+Nyt saatat jo hahmottaa niitä etuja, joita rakenteet tuovat ohjelmointiin. Jos et, se ei haittaa, sillä nyt jatkamme tarinaa. Rakenteen tietojen käyttäminen on samanlaista kuin muuttujien - voimme siis tulostaa Matin tiedot monitorille printf() -funktiolla:
+
+printf("Henkilö 1: %s %s, ikä: %d, paino: %d",
+              henkilo_1.etunimi, henkilo_1.sukunimi, henkilo_1.ika, henkilo_1.paino);
+
+Yksi rakenteiden hienous on, että se johtaa meidät laiskuuteen:
+
+henkilo_2.etunimi = henkilo_1.etunimi;
+henkilo_2.sukunimi = henkilo_1.sukunimi;
+henkilo_2.ika = henkilo_1.ika;
+henkilo_2.paino = henkilo_1.paino;
+
+Edellinen voitaisiin korvata lauseella:
+
+henkilo_2 = henkilo_1;
+
+Edellisessä ei ollut tavallaan mitään järkeä. Tarkoituksena oli vain havainnolistaa, kuinka useiden muuttujien tiedot voidaan helposti siirtää toiseen.
+
+
+
+
+
+Jotta näkisimme rakenteiden "voiman", teemme esimerkin, jonka toteuttaminen ilman rakenteita olisi melko hankalaa. Rakenteet soveltuvat erittäin hyvin ongelmiin, joissa käsitellään vaikkapa usean henkilön henkilötietoja.
+
+Teemme ohjelman, joka kysyy käyttäjältä viiden henkilön tiedot, ja tallentaa nämä tiedostoon. Ohjelma ei itsessään ole kovinkaan käyttökelpoinen. Tarkoituksena on havainnollistaa, kuinka voit käyttää rakenteita omissa ohjelmissasi:
+
+Ohjelma 4.1
+
+   1:    #include <stdio.h>
+   2:    int main(void)  
+   3:    {  
+   4:      int i; 
+   5:      FILE *kirj_tied; 
+   6:      char rekisteri[] = "rekister.txt"; 
+   7: 
+   8:      struct henkilo {  
+   9:        char etunimi[15];  
+   10:       char sukunimi[25];  
+   11:       int ika;  
+   12:       int paino;  
+   13:     }; 
+   14: 
+   15:     struct henkilo henkilo_lista[5];  
+   16: 
+   17:     for(i=0; i<5; i++) {  
+   18:       printf("Syötä etunimi, sukunimi, ikä ja paino välilyönnein eroteltuna:"); 
+   19:       scanf("%s%s%d%d", henkilo_lista[i].etunimi, henkilo_lista[i].sukunimi, 
+   20:                         &henkilo_lista[i].ika, &henkilo_lista[i].paino); 
+   21:     } 
+   22: 
+   23:     if ((kirj_tied = fopen(rekisteri, "w")) == NULL) {  
+   24:       printf("Virhe tiedoston avaamisessa.");
+   25:       return 0; 
+   26:     } else { 
+   27:       for(i=0; i<5; i++) { 
+   28:         fprintf(kirj_tied, "%s %s %d %d\n", henkilo_lista[i].etunimi,   
+   29:           henkilo_lista[i].sukunimi, henkilo_lista[i].ika, henkilo_lista[i].paino);  
+   30:       } 
+   31:     } 
+   32:     fclose(kirj_tied); 
+   33:     printf("Tietojen tallennus onnistui!"); 
+   34:     return 0;  
+   35:   }
+Katsomalla rivi riviltä esimerkkiohjelmaa, tulet ymmärtämään, kuinka rakenteet toimivat. Muista, että rakenteiden käyttö on usein järkevää, jos ohjelmasi käsittelee toisiinsa liittyviä tietoja. Henkilötiedot on yksi esimerkki tällaisesta ja rakenteethan mahdollistavat yksittäisten henkilötietojen luetteloinnin.
+
+Rivit 4 - 6: Ohjelman alussa esittelemme muuttujan i, jota tarvitsemme ohjelman silmukoissa. Lisäksi esittelemme tiedostokahvan kirj_tied sekä alustamme merkkijonotaulukon rekisteri[] merkkijonolla rekister.txt, joka on ohjelman käyttämän tiedoston nimi.
+
+Rivi 8: Rivillä kahdeksan määritellään ohjelman käyttämä tietorakenne henkilo, joka pitää sisällään jäljempänä eritellyt tiedot.
+
+Rivit 9 - 12: Tietorakenne henkilo "rakennetaan" neljästä muuttujasta. Tässä ohjelmassa käsitellään tietoja "etunimi", "sukunimi", "ikä" ja "paino". Sekä etu- että sukunimi määritellään merkkijonotaulukoksi kun taas ikä ja paino tallennetaan kokonaislukumuuttujiin.
+
+Rivi 13: Rakenteen määrittely päätetään aaltosulkeeseen ja tätä seuraavaan puolipisteeseen. Tässä vaiheessa olemme määritelleet oman rakenteemme. Jotta rakennetta voitaisiin käyttää, se on esiteltävä kuten muutkin muuttujat.
+
+Rivi 15: Rivillä 15 muodostetaan aiemmin määritellyn rakenteen ilmentymä - toisin sanoen esittelemme rakenteen tietotyypin mukaisen taulukon. Varaamme taulukolle 5 alkiota tilaa, joista jokainen sisältää kaikki rakenteen määrittelemät muuttujat. Alla oleva kuva havainnollistaa esittelyä:
+
+Rivi 17: Ohjelma kerää tietoja näppäimistöltä viisi kertaa toistettavan for-silmukan avulla. Jokaisella kierroksella käyttäjää pyydetään syöttämään uuden henkilön tiedot välilyönnein eroteltuna.
+
+Rivit 19 - 20: Käyttäjän syöttämät tiedot sijoitetaan taulukkoon henkilo_lista. Tähän käytämme scanf()-funktiota aivan kuten aikaisemminkin. Ainoa uusi asia on tapa, jolla viittaamme tietueen yksittäisiin jäseniin. Tapaa, jolla jäseniin viittaaminen toteutetaan kutsutaan pistenotaatioksi. Esimerkiksi silmukan kolmannella kierroksella käyttäjän syöttämät tiedot sijoitetaan alkioihin henkilo_lista[2].etunimi, henkilo_lista[2].sukunimi, henkilo_lista[2].ika ja henkilo_lista[2].paino.
+
+Rivit 23 - 35: Kun kaikki tiedot on kerätty taulukkoon, avataan tiedosto "rekister.txt". (Tiedostojen käsittelyyn liittyviä asioita voit kerrata luvusta 9.) Mikäli avaus epäonnistuu, ohjelma suljetaan. Muutoin (avaus onnistuu) taulukon sisältämät tietueet tallennetaan tiedostoon for-silmukan avulla.
+
+Ohjelman lopuksi suljetaan tiedosto ja tulostetaan monitorille viesti tietojen tallentamisen onnistumisesta.
