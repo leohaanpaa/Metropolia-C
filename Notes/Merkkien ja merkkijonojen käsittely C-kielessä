@@ -1,0 +1,75 @@
+#include <stdio.h> 
+
+int main()  
+{  
+	char merkki_muuttuja;  
+	merkki_muuttuja = 'v';  
+
+	printf("Numeroa %d vastaava merkki on %c\n", merkki_muuttuja, merkki_muuttuja);  
+
+	return 0;  
+}
+
+Rivi 5: Alustetaan merkkimuuttuja, joka puolestaan alustetaan merkillä "v" heti seuraavalla rivillä. Huomaa, että merkkimuuttujan alustamiseen käytetään heittomerkkiä ( ' ).
+
+Rivi 8: Käytetään printf() -funktiota, joka tulostaa muuttujan kahdella tavalla. Kuten näet, muotoilumääre %d kertoo, että haluat tulostaa muuttujan kokonaislukuna, kun taas %c ohjeistaa kääntäjää tulostamaan lukua vastaavan merkin.
+
+Merkkijonojen alustaminen ei poikkea juurikaan numeeristen taulukoiden alustamisesta. Voit halutessasi alustaa taulukon seuraavasti:
+
+char merkki_taulukko[5] = { 'a', 'u', 't', 'o', '\0' };
+
+char merkki_taulukko[5] = "auto";
+
+Esimerkeistä alempi on huomattavasti kätevämpi tapa, kunhan muistat jättää tilan päättävälle merkille. Kuten näet, käytettäessä literaalia merkkijonoa (merkkijonoa, joka on kiinteä osa ohjelmakoodiasi) alustamisessa, kääntäjä huolehtii lopettavasta merkistä. Voit itse asiassa jättää myös taulukon koon määrittelyn kääntäjälle, kun käytät literaalia merkkijonoa:
+
+char merkki_taulukko[] = "auto";
+
+Kuten ei merkkijonotaulukkokaan poikennut erityisesti numeerisista taulukoista, ei niiden tulostaminenkaan poikkea erityisesti aikaisemmasta. Merkkijonotaulukon sisältämä merkkijono voidaan tulostaa printf()-funktion avulla. Olet tutustunut funktioon jo useissa yhteyksissä.
+
+Kun haluat tulostaa merkkijonon, sinun pitää käyttää muotoilumäärettä %s. Seuraavassa esimerkissä tulostetaan merkkijono monitorille printf()-funktion avulla:
+
+...
+char merkki_jono[] = "Tässä on tulostettava merkkijono!";
+
+printf("Taulukko sisältää seuraavan merkkijonon: %s", merkki_jono);
+...
+
+Funktio tulostaa taulukon merkkejä aloittaen ensimmäisestä alkiosta. Tulostus päätetään, kun funktio kohtaa null-merkin.
+
+
+Esimerkkejä
+
+   char syotetty_jono[30];
+
+   printf("Syötä jokin merkkijono (max. 29 merkkiä, ei välilyöntejä):");
+
+   /*Otetaan jonon eka merkki taulukon ekaan alkioon. (syotetty_jono)*/
+   scanf("%s", syotetty_jono);
+
+   printf("Syötit jonon: %s", syotetty_jono);
+
+
+
+      ...
+   char etunimi[10], sukunimi[20];
+
+   printf("Syötä henkilön etu- ja sukunimi välilöynnein eroteltuna:");
+   scanf("%s%s", etunimi, sukunimi);
+
+   printf("Lisättiin rekisteriin: %s %s.", etunimi, sukunimi);
+   ...
+
+
+
+
+      ...
+   char etunimi[10], sukunimi[20], puhelinnumero[15];
+
+   printf("Syötä henkilön etu- ja sukunimi välilöynnein eroteltuna:");
+   scanf("%s%s", etunimi, sukunimi);
+
+   printf("Syötä %s:n puhelinnumero: ", etunimi);
+   scanf("%s", puhelinnumero);
+
+   printf("Syöttämäsi henkilö oli %s %s, puh: %s", etunimi, sukunimi, puhelinnumero);
+   ...
